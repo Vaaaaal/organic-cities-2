@@ -1,5 +1,8 @@
 document.addEventListener("DOMContentLoaded", (event) => {
     window.Vlitejs.registerProvider('vimeo', window.VlitejsVimeo);
+
+    $(".seq_hero-title").clone().appendTo(".seq_mobile-title");
+    $(".seq_mobile-title h1").removeClass("disable-mobile").addClass("disable-desktop");
     
     // Add slider to hero
     const swiper = new Swiper('.swiper', {

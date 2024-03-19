@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
   })
 
   // Open sommaire modal
-  $('.navbar_second-link.is-sommaire').on('click', function() {
+  $('.navbar_second-sommaire').on('click', function() {
     gsap.to('.modal.is-sommaire', {
       translateX: 0,
       duration: 0.4,
@@ -68,31 +68,113 @@ document.addEventListener("DOMContentLoaded", (event) => {
       }
     })
   })
+
+  // Scroll to the good element in view (due to scroll snap)
+  $('.navbar_second-link').on("click", function() {
+    const element = document.getElementById($(this).data("target"))
+    element.scrollIntoView(true)
+  })
+
+  $('.modal-sommaire-link').on("click", function() {
+    const element = document.getElementById($(this).data("target"))
+    element.scrollIntoView(true)
+  })
   
-  // Hover effect on second nav
-  $('.navbar_second-link').on('mouseenter', function() {
+  // Hover effect for navbar second
+  $('.navbar_second-link').on("mouseenter", function() {
     gsap.to(this, {
       color: "#fff",
-      duration: 0.3,
+      duration: 0.2,
       ease: "power2.easeOut",
     })
-    gsap.to($(this).find(".navbar_second-indicator"), {
-      translateX: 0,
-      duration: 0.3,
-      ease: "power2.easeOut",
-    })
-  }).on('mouseleave', function() {
+  }).on("mouseleave", function() {
     gsap.to(this, {
-      color: "#888",
-      duration: 0.3,
-      ease: "power2.easeOut",
-    })
-    gsap.to($(this).find(".navbar_second-indicator"), {
-      translateX: "-105%",
-      duration: 0.3,
-      ease: "power2.easeOut",
+      color: "#a0a0a0",
+      duration: 0.2,
+      ease: "power2.easeIn",
     })
   })
+
+  // Active state effect on second nav
+  ScrollTrigger.defaults({
+    scroller: ".snapper",
+  })
+
+  const introTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: "#intro",
+      start: "top 10%",
+      end: "bottom 10%",
+      toggleActions: "play reverse play reverse",
+    }
+  })
+  introTl.to(".navbar_second-link.is-intro", {
+    color: "#fff",
+    duration: 0.3,
+    ease: "power2.easeOut",
+  }).fromTo($(".navbar_second-link.is-intro").find(".navbar_second-indicator"), {
+    translateX: "-105%",
+  }, {
+    translateX: 0,
+    duration: 0.3,
+    ease: "power2.easeOut",
+  }, 0)
+
+  const editoTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: "#edito",
+      start: "top 10%",
+      end: "bottom 10%",
+      toggleActions: "play reverse play reverse",
+    }
+  })
+  editoTl.to(".navbar_second-link.is-edito", {
+    color: "#fff",
+    duration: 0.3,
+    ease: "power2.easeOut",
+  }).to($(".navbar_second-link.is-edito").find(".navbar_second-indicator"), {
+    translateX: 0,
+    duration: 0.3,
+    ease: "power2.easeOut",
+  }, 0)
+
+  const makingTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: "#making",
+      start: "top 10%",
+      endTrigger: ".home_making-wrapper .snapper-item:last-child",
+      end: "bottom 10%",
+      toggleActions: "play reverse play reverse",
+    }
+  })
+  makingTl.to(".navbar_second-link.is-making", {
+    color: "#fff",
+    duration: 0.3,
+    ease: "power2.easeOut",
+  }).to($(".navbar_second-link.is-making").find(".navbar_second-indicator"), {
+    translateX: 0,
+    duration: 0.3,
+    ease: "power2.easeOut",
+  }, 0)
+
+  const thinkTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: "#thinking",
+      start: "top 10%",
+      endTrigger: ".footer",
+      end: "bottom top",
+      toggleActions: "play reverse play reverse",
+    }
+  })
+  thinkTl.to(".navbar_second-link.is-thinking", {
+    color: "#fff",
+    duration: 0.3,
+    ease: "power2.easeOut",
+  }).to($(".navbar_second-link.is-thinking").find(".navbar_second-indicator"), {
+    translateX: 0,
+    duration: 0.3,
+    ease: "power2.easeOut",
+  }, 0)
   
   // Add custom player
   new window.Vlitejs("#player-making", {
