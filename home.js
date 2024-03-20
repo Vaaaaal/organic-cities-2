@@ -182,7 +182,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
   }, 0)
   
   // Add custom player
-  new window.Vlitejs("#playerMaking", {
+  new window.Vlitejs("#player-making", {
     options: {
       controls: true,
       autoplay: false,
@@ -204,7 +204,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     provider: ["vimeo"],
   })
   
-  new window.Vlitejs("#playerThink", {
+  new window.Vlitejs("#player-think", {
     options: {
       controls: true,
       autoplay: false,
