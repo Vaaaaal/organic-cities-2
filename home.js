@@ -9,7 +9,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
   $(".home_sequence-interventions-entreprise").each((index, item) => {
     $(item).find(".home_sequence-interventions-authors").text($(item).find(".home_sequence-interventions-authors").text().trim());
     const authorsList = $(item).find(".home_sequence-interventions-authors");
-    if($(item).find(".home_sequence-interventions-entreprise-item").text().length > 0) {
+
+    if(!$(item).find(".home_sequence-interventions-entreprise-item").hasClass("w-dyn-bind-empty")) {
       authorsList.append(",&nbsp;")
       authorsList.prependTo($(item).find(".home_sequence-interventions-entreprise-item"));
     }
