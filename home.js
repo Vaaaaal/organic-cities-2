@@ -253,14 +253,15 @@ document.addEventListener("DOMContentLoaded", (event) => {
       $('.home_sequence-interventions-item-video').on('click', function() {
         $('.home_sequence-interventions-item').removeClass('is-active');
         $(".home_intervention-video-overlay").removeClass('is-active');
+
         gsap.to(".home_sequence-interventions-item", {
           flex: 1,
           duration: 0.4,
           ease: "power2.easeOut",
         })
-        $(this).parent().addClass('is-active');
+
         gsap.to($(this).parent(), {
-          flex: 4,
+          flex:  $(this).parent().parent().children().length ? $(this).parent().parent().children().length : 1,
           duration: 0.6,
           ease: "back.out(1.3)",
         })
@@ -425,4 +426,23 @@ document.addEventListener("DOMContentLoaded", (event) => {
       })
     }
   ])
+
+  // Add match media to gsap
+  let mm = gsap.matchMedia();
+
+  mm.add("(min-width: 768px)", () => {
+    $(".home-bg-wrapper").css("height", "100%")
+    $(".home-bg-overlay").css("height", "100%")
+  })
+
+  mm.add("(max-width: 768px)", () => {
+    const value = $(".snapper").children().toArray()
+    value.shift()
+    const height = value.reduce((acc, item) => {
+      return acc + $(item).height()
+    }, 0)
+
+    $(".home-bg-wrapper").css("height", height)
+    $(".home-bg-overlay").css("height", "101%")
+  })
 });
