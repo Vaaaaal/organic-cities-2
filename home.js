@@ -8,7 +8,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
   // Add authors to the good place (sibling entreprise)
   $(".home_sequence-interventions-entreprise").each((index, item) => {
     $(item).find(".home_sequence-interventions-authors").text($(item).find(".home_sequence-interventions-authors").text().trim());
-    $(item).find(".home_sequence-interventions-authors").append(",&nbsp;").prependTo($(item).find(".home_sequence-interventions-entreprise-item"));
+    const authorsList = $(item).find(".home_sequence-interventions-authors");
+    if($(item).find(".home_sequence-interventions-entreprise-item").text().length > 0) {
+      authorsList.append(",&nbsp;")
+    }
+    authorsList.prependTo($(item).find(".home_sequence-interventions-entreprise-item"));
   })
 
   // Open sommaire modal
