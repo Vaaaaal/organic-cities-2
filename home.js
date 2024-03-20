@@ -11,8 +11,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
     const authorsList = $(item).find(".home_sequence-interventions-authors");
     if($(item).find(".home_sequence-interventions-entreprise-item").text().length > 0) {
       authorsList.append(",&nbsp;")
+      authorsList.prependTo($(item).find(".home_sequence-interventions-entreprise-item"));
     }
-    authorsList.prependTo($(item).find(".home_sequence-interventions-entreprise-item"));
   })
 
   // Open sommaire modal
