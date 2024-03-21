@@ -76,32 +76,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
     })
   })
 
-  // Scroll to the good element in view (due to scroll snap)
-  $('.navbar_second-link').on("click", function() {
-    const element = document.getElementById($(this).data("target"))
-    element.scrollIntoView(true)
-  })
-
-  $('.modal-sommaire-link').on("click", function() {
-    const element = document.getElementById($(this).data("target"))
-    element.scrollIntoView(true)
-  })
-  
-  // Hover effect for navbar second
-  $('.navbar_second-link').on("mouseenter", function() {
-    gsap.to(this, {
-      color: "#fff",
-      duration: 0.2,
-      ease: "power2.easeOut",
-    })
-  }).on("mouseleave", function() {
-    gsap.to(this, {
-      color: "#a0a0a0",
-      duration: 0.2,
-      ease: "power2.easeIn",
-    })
-  })
-
   // Active state effect on second nav
   ScrollTrigger.defaults({
     scroller: ".snapper",
@@ -226,6 +200,37 @@ document.addEventListener("DOMContentLoaded", (event) => {
       }
     },
     provider: ["vimeo"],
+  })
+
+  // Add match media to gsap
+  let mm = gsap.matchMedia();
+
+  mm.add("(min-width: 768px)", () => {
+    // Scroll to the good element in view (due to scroll snap)
+    $('.navbar_second-link').on("click", function() {
+      const element = document.getElementById($(this).data("target"))
+      element.scrollIntoView(true)
+    })
+
+    $('.modal-sommaire-link').on("click", function() {
+      const element = document.getElementById($(this).data("target"))
+      element.scrollIntoView(true)
+    })
+
+    // Hover effect for navbar second
+    $('.navbar_second-link').on("mouseenter", function() {
+      gsap.to(this, {
+        color: "#fff",
+        duration: 0.2,
+        ease: "power2.easeOut",
+      })
+    }).on("mouseleave", function() {
+      gsap.to(this, {
+        color: "#a0a0a0",
+        duration: 0.2,
+        ease: "power2.easeIn",
+      })
+    })
   })
   
   // Dynamicly add click event after finsweet attributes cmsnest loads
@@ -401,30 +406,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
           ease: "power2.easeOut",
           onComplete: () => {
             gsap.set($(this), { display: "none" })
-
-            console.log($(this))
           }
         })
       })
     }
   ])
-
-  // Add match media to gsap
-  let mm = gsap.matchMedia();
-
-  mm.add("(min-width: 768px)", () => {
-    $(".home-bg-wrapper").css("height", "100%")
-    $(".home-bg-overlay").css("height", "100%")
-  })
-
-  mm.add("(max-width: 768px)", () => {
-    const value = $(".snapper").children().toArray()
-    value.shift()
-    const height = value.reduce((acc, item) => {
-      return acc + $(item).height()
-    }, 0)
-
-    $(".home-bg-wrapper").css("height", height)
-    $(".home-bg-overlay").css("height", "101%")
-  })
 });
