@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         // Optional parameters
         loop: true,
         parallax: true,
+        spaceBetween: -1,
 
         // Navigation arrows
         navigation: {
@@ -47,8 +48,19 @@ document.addEventListener("DOMContentLoaded", (event) => {
         allVideoPlayers.push(videoPlayer)
     })
 
-    // Add click event to big btn for video
+    // Add click event to big btn & swiper title for video
     $('.big-btn-link.is-view').on('click', function() {
+        const tl = gsap.timeline()
+        const element = $(`#${$(this).data("modalId")}`)
+        tl.set(element.parents('.seq_modal-video'), { display: "flex" })
+            .to(element.parents('.seq_modal-video'), {
+                opacity: 1,
+                duration: 0.4,
+                ease: "power2.easeOut"
+            }
+        )
+    })
+    $('.swiper_internal-title').on('click', function() {
         const tl = gsap.timeline()
         const element = $(`#${$(this).data("modalId")}`)
         tl.set(element.parents('.seq_modal-video'), { display: "flex" })
@@ -77,6 +89,18 @@ document.addEventListener("DOMContentLoaded", (event) => {
             onComplete: () => {
                 gsap.set($(this), { display: "none" })
             }
+        })
+    })
+
+    // Add match media to gsap
+    let mm = gsap.matchMedia();
+    mm.add("(min-width: 768px)", () => {
+        $(".seq_swiper-content-internal-wrap").on("mouseenter", function() {
+            $(this).css("color", "rgba(255, 255, 255, 1)")
+            $(".swiper_internal-authors-list-item").css("color", "rgba(255, 255, 255, 1)")
+        }).on("mouseleave", function() {
+            $(this).css("color", "rgba(255, 255, 255, 0.35)")
+            $(".swiper_internal-authors-list-item").css("color", "rgba(255, 255, 255, 0.35)")
         })
     })
 })
