@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", (event) => {
   window.Vlitejs.registerProvider('vimeo', window.VlitejsVimeo);
+  let currentVideoPlayer = null;
+  let currentVideo = null;
   
   // SplitText for animations
   new SplitText(".home_sequence-interventions-title", {type: "lines", linesClass: "line"});
@@ -226,29 +228,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
     provider: ["vimeo"],
   })
   
-  $('.home_type-video.is-home-intervention').each(function(index, item) {
-    new window.Vlitejs(item, {
-      options: {
-        controls: true,
-        autoplay: false,
-        playPause: true,
-        progressBar: true,
-        time: true,
-        volume: true,
-        fullscreen: true,
-        bigPlay: true,
-        playsinline: true,
-        loop: false,
-        muted: false,
-        autoHide: true,
-        providerParams: {
-          controls: false,
-        }
-      },
-      provider: ["vimeo"],
-    })
-  })
-  
   // Dynamicly add click event after finsweet attributes cmsnest loads
   window.fsAttributes = window.fsAttributes || [];
   window.fsAttributes.push([
@@ -360,19 +339,25 @@ document.addEventListener("DOMContentLoaded", (event) => {
           }, "+=0.3")
         }
       })
+      
+      // Add click event to play btn overlay to open modal video
+      $('.home_intervention-video-overlay').on('click', function() {
+        if(!$(this).hasClass("is-active")) {
+          return
+        }
 
-      // Add player for all video available and push it in an object
-      let allVideoPlayers = []
-      $('.home_modal-video-item').each(function(index, item) {
-        const parent = $(item).parent()
-        
-        const videoPlayer = new window.Vlitejs(`#${$(item).attr("id")}`, {
+        currentVideo = {
+          vimeoId: $(this).data("vimeo"),
+        }
+        $("#player").attr("data-vimeo-id", currentVideo.vimeoId)
+
+        currentVideoPlayer = new window.Vlitejs("#player", {
           options: {
             controls: true,
             autoplay: false,
             playPause: true,
             progressBar: true,
-            poster: parent.find(".home_modal-video-cover").attr("src"),
+            poster: $(this).parent().find(".home_intervention-video-cover").attr("src"),
             time: true,
             volume: true,
             fullscreen: true,
@@ -387,21 +372,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
           },
           provider: ["vimeo"],
         })
-        
-        allVideoPlayers.push(videoPlayer)
-      })
-      
-      // Add click event to play btn overlay to open modal video
-      $('.home_intervention-video-overlay').on('click', function() {
-        if(!$(this).hasClass("is-active")) {
-          return
-        }
 
         gsap.set("body", { overflow: 'hidden' })
         const tl = gsap.timeline()
-        const element = $(`#${$(this).data("modalId")}`)
-        tl.set(element.parents('.home_modal-video'), { display: "flex" })
-          .to(element.parents('.home_modal-video'), {
+        tl.set('.home_modal-video', { display: "flex" })
+          .to('.home_modal-video', {
             opacity: 1,
             duration: 0.4,
             ease: "power2.easeOut",
@@ -413,19 +388,21 @@ document.addEventListener("DOMContentLoaded", (event) => {
       $('.home_modal-video').on('click', function(e) {
         if (e.target !== this && !$(e.target).parent().hasClass("home_modal-video"))
           return;
-          
-        let filtered = allVideoPlayers.filter(item => { 
-          return $(item.media).attr("id") === $(this).find('.home_modal-video-item').attr("id")
-        })
         
         gsap.set("body", { overflow: 'scroll' })
-        filtered[0].player.pause()
+        currentVideoPlayer.player.pause()
+        currentVideoPlayer = null
+        $(this).find('.v-vlite').remove()
+        $(this).find('.home_modal-video-item-wrapper').append('<div class="home_modal-video-item" id="player"></div>')
+
         gsap.to($(this), {
           opacity: 0,
           duration: 0.3,
           ease: "power2.easeOut",
           onComplete: () => {
             gsap.set($(this), { display: "none" })
+
+            console.log($(this))
           }
         })
       })
