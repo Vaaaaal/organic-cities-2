@@ -2,10 +2,19 @@ document.addEventListener("DOMContentLoaded", (event) => {
   window.Vlitejs.registerProvider('vimeo', window.VlitejsVimeo);
   let currentVideoPlayer = null;
   let currentVideo = null;
-  
-  // SplitText for animations
-  new SplitText(".home_sequence-interventions-title", {type: "lines", linesClass: "line"});
-  new SplitText(".home_sequence-interventions-entreprise", {type: "lines", linesClass: "line"});
+
+  let mm = gsap.matchMedia();
+
+  // SplitText for animations only on desktop
+  mm.add("(min-width: 992px)", () => {
+    const homeSequenceTitles = new SplitText(".home_sequence-interventions-title", {type: "lines", linesClass: "line"});
+    const homeSequenceEntreprises = new SplitText(".home_sequence-interventions-entreprise", {type: "lines", linesClass: "line"});
+
+    return () => {
+      homeSequenceTitles.revert();
+      homeSequenceEntreprises.revert();
+    }
+  })
   
   // Add authors to the good place (sibling entreprise)
   $(".home_sequence-interventions-entreprise").each((index, item) => {
