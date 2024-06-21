@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
   let currentVideoPlayer = null;
   let currentVideo = null;
 
+  // Add match media to gsap
   let mm = gsap.matchMedia();
 
   // SplitText for animations only on desktop
@@ -210,9 +211,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
     },
     provider: ["vimeo"],
   })
-
-  // Add match media to gsap
-  let mm = gsap.matchMedia();
 
   mm.add("(min-width: 768px)", () => {
     // Scroll to the good element in view (due to scroll snap)
