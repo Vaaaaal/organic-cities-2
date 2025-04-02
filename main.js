@@ -132,6 +132,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // }
 
     mm.add("(min-width: 992px)", () => {
+        gsap.set(".navbar-2025_tabs-list_wrapper", {
+            opacity: 1,
+            pointerEvents: "auto",
+        })
+
         // Toggle navbar 2025 tabs on scroll top or bottom
         if ($(".navbar_second").length && !$(".navbar_second").hasClass("is-snapper")) {
             const navbar2025Tl = gsap.timeline({
